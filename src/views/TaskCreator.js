@@ -9,15 +9,11 @@ import {
 import { connect } from 'react-redux';
 import uuid from 'uuid';
 
-import { getTaskById, taskTypeSelector } from './selectors';
-
-import { CREATE_TASK, UPDATE_TASK } from './redux/types';
-
-import Drawer, { DrawerContent, DrawerHeader } from '@material/react-drawer';
-import Button from '@material/react-button';
-import { Chip, ChipSet } from '@material/react-chips';
-import IconButton from '@material/react-icon-button';
-import { Caption } from '@material/react-typography';
+import Drawer, { DrawerContent, DrawerHeader } from '@material/react-drawer/dist/index';
+import Button from '@material/react-button/dist/index';
+import { Chip, ChipSet } from '@material/react-chips/dist/index';
+import IconButton from '@material/react-icon-button/dist/index';
+import { Caption } from '@material/react-typography/dist/index';
 
 import '@material/react-drawer/dist/drawer.css';
 import '@material/react-button/dist/button.css';
@@ -25,7 +21,11 @@ import '@material/react-card/dist/card.css';
 import '@material/react-icon-button/dist/icon-button.css';
 import '@material/react-chips/dist/chips.css';
 
-import { TASK_SERVICES } from './constants';
+import { createTask, updateTask } from '../redux/actions';
+import { getTaskById, taskTypeSelector } from '../selectors';
+import { TASK_SERVICES } from '../constants';
+
+import '../assets/styles/App.css';
 
 
 const ID_UNDEFINED = { _id: undefined };
@@ -60,6 +60,7 @@ const ButtonServiceType = ({
       <img
         src={image}
         className="TaskCreator-ButtonServiceTypeIcon-image"
+        alt=""
       />
       </div>
     </IconButton>
@@ -140,7 +141,7 @@ const TaskCreator = ({
               <span
                 className="TaskCreator-TaskDescription-title"
               >
-                I need{'\u00a0'}
+                {'I need '}
                 <span
                   className="TaskCreator-TaskDescription-title-text"
                 >
@@ -149,7 +150,7 @@ const TaskCreator = ({
                 {
                   (selectedTaskSubType._id) && (
                     <span>
-                      {'\u00a0'} to {'\u00a0'}
+                      {' to '}
                       <span
                         className="TaskCreator-TaskDescription-title-text"
                       >
@@ -183,18 +184,15 @@ const TaskCreator = ({
         <SectionBlock
           title="LOCATION"
         >
-          <div>
-            <span
-              className="TaskCreator-Content-Address"
-            >
-              { mapAddress || 'unknown' }
-            </span>
-          </div>
+          <span
+            className="TaskCreator-Content-Address"
+          >
+            { mapAddress || 'unknown' }
+          </span>
         </SectionBlock>
         <SectionBlock
           title="SERVICE TYPE"
         >
-          <div>
           {
             TASK_SERVICES.map(
               ({ _id, title, image }) => (
@@ -208,49 +206,42 @@ const TaskCreator = ({
               )
             )
           }
-          </div>
         </SectionBlock>
         {
           (selectedTaskType._id) && (
-            <div>
-              <SectionBlock
-                title={`${selectedTaskType.title.toUpperCase()} TASKS`}
-              >
+            <SectionBlock
+              title={`${selectedTaskType.title.toUpperCase()} TASKS`}
+            >
               <ChipSet
                 className="TaskCreator-ServiceTypeTasksSet"
               >
-                <div>
-                  {
-                    selectedTaskType.types.map(({ _id, title }) => (
-                      <Chip
-                        key={_id}
-                        label={title}
-                        selected={(selectedTaskSubType._id === _id)}
-                        className={`TaskCreator-ServiceTypeTask ${(selectedTaskSubType._id === _id) ? 'TaskCreator-ServiceTypeTaskSelected' : ''}`}
-                        onClick={() => onTaskSubTypeClick(_id)}
-                      />
-                    ))
-                  }
-                </div>
+                {
+                  selectedTaskType.types.map(({ _id, title }) => (
+                    <Chip
+                      key={_id}
+                      label={title}
+                      selected={(selectedTaskSubType._id === _id)}
+                      className={`TaskCreator-ServiceTypeTask ${(selectedTaskSubType._id === _id) ? 'TaskCreator-ServiceTypeTaskSelected' : ''}`}
+                      onClick={() => onTaskSubTypeClick(_id)}
+                    />
+                  ))
+                }
               </ChipSet>
-              </SectionBlock>
-            </div>
+            </SectionBlock>
           )
         }
         {
           (selectedTaskSubType) && (
-            <div>
-              <SectionBlock
-                title="TASK DESCRIPTION"
-              >
-                <input
-                  type="text"
-                  className="TaskCreator-Address-input"
-                  value={taskDescriptionText}
-                  onChange={onTaskDescriptionChange}
-                />
-              </SectionBlock>
-            </div>
+            <SectionBlock
+              title="TASK DESCRIPTION"
+            >
+              <input
+                type="text"
+                className="TaskCreator-Address-input"
+                value={taskDescriptionText}
+                onChange={onTaskDescriptionChange}
+              />
+            </SectionBlock>
           )
         }
       </DrawerContent>
@@ -272,9 +263,9 @@ const mapStateToProps = (state) => ({
   locationFromMap: state.location,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  createTaskAction: (payload) => dispatch({ type: CREATE_TASK, payload }),
-  updateTaskAction: (payload) => dispatch({ type: UPDATE_TASK, payload }),
+const mapDispatchToProps = ({
+  createTaskAction: createTask,
+  updateTaskAction: updateTask,
 });
 
 
@@ -366,11 +357,11 @@ const enhancer = compose(
             }
           }
         }
-        if (
+        if ((
           nextProps.locationFromMap && this.props.mapLocation && nextProps.locationFromMap.lng && (
             nextProps.locationFromMap.lng !== this.props.mapLocation.lng ||
             nextProps.locationFromMap.lat !== this.props.mapLocation.lat
-          ) || (
+          )) || (
             nextProps.locationFromMap && !this.props.mapLocation
           )
         ) {

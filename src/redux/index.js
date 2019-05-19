@@ -8,10 +8,14 @@ import { loadState, saveState } from './localstorage';
 
 const persistedState = loadState();
 
+const USE_LOGGER = true;
+
+const middlewares = [].concat(!USE_LOGGER || logger).filter(mw => mw !== true);
+
 const store = createStore(
   reducer,
   persistedState,
-  applyMiddleware(logger),
+  applyMiddleware(...middlewares),
 );
 
 

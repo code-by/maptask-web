@@ -1,8 +1,8 @@
-import svgServiceCook from './assets/service_cook.svg';
-import svgServicePlumber from './assets/service_plumber.svg';
-import svgServiceElectrician from './assets/service_electrician.svg';
-import svgServiceHousekeeper from './assets/service_housekeeper.svg';
-import svgServiceGardener from './assets/service_gardener.svg';
+import svgServiceCook from './assets/images/service_cook.svg';
+import svgServicePlumber from './assets/images/service_plumber.svg';
+import svgServiceElectrician from './assets/images/service_electrician.svg';
+import svgServiceHousekeeper from './assets/images/service_housekeeper.svg';
+import svgServiceGardener from './assets/images/service_gardener.svg';
 
 
 export const LOCATION_UNDEFINED = {

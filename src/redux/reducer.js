@@ -32,7 +32,6 @@ export default (state = INITIAL_STATE, { type, payload }) => {
         date: undefined,
       };
     case Tasks.CREATE_TASK:
-      console.log(payload);
       return {
         ...state,
         editMode: false,

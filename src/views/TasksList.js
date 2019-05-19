@@ -2,17 +2,17 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { compose, withHandlers } from 'recompose';
 
-import Card, { CardActionButtons, CardPrimaryContent } from '@material/react-card';
-import Button from '@material/react-button';
+import Card, { CardPrimaryContent } from '@material/react-card/dist/index';
+import Button from '@material/react-button/dist/index';
 
 import '@material/react-button/dist/button.css';
 import '@material/react-card/dist/card.css';
 
 import TaskCard from './TaskCard';
 
-import { NEW_TASK } from './redux/types';
+import { newTask } from '../redux/actions';
+import '../assets/styles/App.css';
 
-import './App.css';
 
 const TasksList = ({
   tasks,
@@ -20,7 +20,9 @@ const TasksList = ({
   editMode,
   selectedTaskId,
 }) => (
-  <div>
+  <div
+    className="TasksList"
+  >
     <Card
       className="TasksList-NewTask-button"
     >
@@ -54,14 +56,19 @@ const TasksList = ({
 );
 
 
+TasksList.propTypes = ({
+
+});
+
+
 const mapStateToProps = state => ({
   tasks: state.tasks,
   editMode: state.editMode,
   selectedTaskId: state.selectedTaskId,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  newTaskAction: () => dispatch({ type: NEW_TASK })
+const mapDispatchToProps = ({
+  newTaskAction: newTask,
 });
 
 

@@ -9,16 +9,13 @@ import {
   lifecycle
 } from 'recompose';
 
-import svgMarker from './assets/mapmarker.svg';
+import svgMarker from '../assets/images/mapmarker.svg';
 
-import {
-  LOCATION_UNDEFINED,
-  MAP_INITIAL_POSITION
-} from './constants';
-import { GOOGLE_MAP_API_KEY } from './API_keys';
+import { setMapAddress } from '../redux/actions';
+import { getTaskById } from '../selectors';
 
-import { SET_ADDRESS_FROM_MAP } from './redux/types';
-import { getTaskById } from './selectors';
+import { LOCATION_UNDEFINED, MAP_INITIAL_POSITION } from '../constants';
+import { GOOGLE_MAP_API_KEY } from '../Config';
 
 
 const MarkerImage = () =>
@@ -42,7 +39,7 @@ const GoogleMap = ({
   <div style={{ width: '100%', height: 'inherit' }}>
     <GoogleMapReact
       bootstrapURLKeys={{ key: GOOGLE_MAP_API_KEY }}
-      defaultCenter={mapCenter}
+      defaultCenter={MAP_INITIAL_POSITION}
       location={mapCenter}
       defaultZoom={16}
       options={{
@@ -75,8 +72,8 @@ const mapStateToProps = (state) => ({
   selectedTaskId: state.selectedTaskId,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  setMapAddressAction: (payload) => dispatch({ type: SET_ADDRESS_FROM_MAP, payload })
+const mapDispatchToProps = ({
+  setMapAddressAction: setMapAddress
 });
 
 

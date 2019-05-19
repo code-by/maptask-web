@@ -1,18 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Card, { CardActionButtons, CardPrimaryContent } from '@material/react-card';
-import Button from '@material/react-button';
-
 import { connect } from 'react-redux';
 import { compose, withHandlers } from 'recompose';
 
-import { selectTaskInformation } from './selectors';
-import { DELETE_TASK, EDIT_TASK } from './redux/types';
-
-import { formatCardDate } from './utils';
+import Card, { CardActionButtons, CardPrimaryContent } from '@material/react-card/dist/index';
+import Button from '@material/react-button/dist/index';
 
 import '@material/react-button/dist/button.css';
 import '@material/react-card/dist/card.css';
+
+import { editTask, deleteTask } from '../redux/actions';
+import { selectTaskInformation } from '../selectors';
+import { formatCardDate } from '../utils';
+
+import '../assets/styles/App.css';
 
 
 const TaskCard = ({
@@ -62,20 +63,20 @@ TaskCard.propTypes = {
 };
 
 
-const mapDispatchToProps = (dispatch) => ({
-  editTask: (payload) => dispatch({ type: EDIT_TASK, payload}),
-  deleteTask: (payload) => dispatch({ type: DELETE_TASK, payload}),
+const mapDispatchToProps = ({
+  editTaskAction: editTask,
+  deleteTaskAction: deleteTask,
 });
 
 
 const enhancer = compose(
   connect(null, mapDispatchToProps),
   withHandlers({
-    onTaskEditClick: ({ editTask, task }) => () => {
-      editTask(task._id);
+    onTaskEditClick: ({ editTaskAction, task }) => () => {
+      editTaskAction(task._id);
     },
-    onTaskDeleteClick: ({ deleteTask, task }) => () => {
-      deleteTask(task._id)
+    onTaskDeleteClick: ({ deleteTaskAction, task }) => () => {
+      deleteTaskAction(task._id)
     },
   })
 );

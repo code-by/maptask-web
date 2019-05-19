@@ -1,13 +1,13 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 
-import store from './redux';
+import store from '../redux';
 
 import GoogleMap from './GoogleMap';
 import TaskCreator from './TaskCreator';
 import TasksList from './TasksList';
 
-import './App.css';
+import '../assets/styles/App.css';
 
 
 function App() {
@@ -16,11 +16,7 @@ function App() {
       <div className="App">
         <TaskCreator />
         <GoogleMap />
-        <div
-          className="TasksList"
-        >
-          <TasksList />
-        </div>
+        <TasksList />
       </div>
     </Provider>
   );
