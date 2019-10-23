@@ -4,6 +4,14 @@ Install node modules
 
 ### `npm install` or `yarn`
 
+## Set Google Maps API key
+
+to make maps and location service work correctly, open /src/Config.js and paste Google maps API key here
+
+`export const GOOGLE_MAP_API_KEY = "";`
+
+to obtain the key visit https://cloud.google.com/maps-platform/
+
 ## Available Scripts
 
 In the project directory, you can run:
