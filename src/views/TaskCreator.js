@@ -41,6 +41,20 @@ const INITIAL_STATE = {
 };
 
 
+const checkNewLocation = (nextProps, props) => {
+	if ((
+		nextProps.locationFromMap && props.mapLocation && nextProps.locationFromMap.lng && (
+			nextProps.locationFromMap.lng !== props.mapLocation.lng ||
+			nextProps.locationFromMap.lat !== props.mapLocation.lat
+		)) || (
+			nextProps.locationFromMap && !props.mapLocation
+		)
+	) {
+		props.setAddress(nextProps.addressFromMap, nextProps.locationFromMap);
+	}
+};
+
+
 const ButtonServiceType = ({
   title,
   image,
@@ -346,27 +360,18 @@ const enhancer = compose(
     componentWillReceiveProps(nextProps) {
       if (nextProps) {
         if (nextProps.selectedTaskId !== this.props.currentSelectedTaskId) {
-          if (nextProps.selectedTaskId === undefined) {
-            // create new task
-            this.props.clearData();
+          if (nextProps.selectedTaskId) {
+						// edit existing task
+						const selectedTask = getTaskById(this.props.tasks, nextProps.selectedTaskId);
+						if (selectedTask && selectedTask._id) {
+							this.props.editTask(selectedTask);
+						}
           } else {
-            // edit existing task
-            const selectedTask = getTaskById(this.props.tasks, nextProps.selectedTaskId);
-            if (selectedTask && selectedTask._id) {
-              this.props.editTask(selectedTask);
-            }
+						// create new task
+						this.props.clearData();
           }
         }
-        if ((
-          nextProps.locationFromMap && this.props.mapLocation && nextProps.locationFromMap.lng && (
-            nextProps.locationFromMap.lng !== this.props.mapLocation.lng ||
-            nextProps.locationFromMap.lat !== this.props.mapLocation.lat
-          )) || (
-            nextProps.locationFromMap && !this.props.mapLocation
-          )
-        ) {
-          this.props.setAddress(nextProps.addressFromMap, nextProps.locationFromMap);
-        }
+        checkNewLocation(nextProps, this.props);
       }
     }
   })

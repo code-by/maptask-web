@@ -4,21 +4,9 @@ import { LOCATION_UNDEFINED } from '../constants';
 
 const INITIAL_STATE = {
   tasks: [],
-  selectedTaskId: undefined,
   editMode: false,
-  address: undefined,
   location: LOCATION_UNDEFINED,
-  date: undefined,
 };
-
-/*
-const INITIAL_TASK = {
-  id: undefined,
-  type: [],
-  location: undefined,
-  description: '',
-};
-*/
 
 export default (state = INITIAL_STATE, { type, payload }) => {
   switch (type) {
